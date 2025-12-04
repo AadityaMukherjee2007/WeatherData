@@ -1,0 +1,35 @@
+from flask import Flask, render_template, jsonify
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import Table, MetaData
+import os
+
+app = Flask(__name__)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{"/media/rpi/WD PASSPORT/WeatherData/data_collection/WeatherData.db"}'
+db = SQLAlchemy(app)
+metadata = MetaData()
+
+with app.app_context():
+    WeatherData = Table('data', metadata, autoload_with=db.engine)
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/getCurrentData')
+def getCuurentData():
+    query = db.session.query(WeatherData).order_by(WeatherData.c.timestamp.desc())
+    latest_data = query.first()
+
+    if latest_data:
+        return jsonify({
+            "temperature": latest_data.temperature,
+            "pressure": latest_data.pressure,
+            "timestamp": str(latest_data.timestamp)
+        })
+    return jsonify({
+        "error": "No data found"
+    })
+
+if __name__ == "__main__":
+    app.run(debug=True)
