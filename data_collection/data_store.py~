@@ -24,7 +24,7 @@ def on_message(client, userdata, msg):
         cur.execute('SELECT * FROM data ORDER BY timestamp DESC LIMIT 1')
         output = cur.fetchone()
         print(output)
-    except Exception as e:
+    except e:
         print("Error processing message:", e)
 
 
