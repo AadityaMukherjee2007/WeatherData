@@ -5,6 +5,11 @@ import os
 
 app = Flask(__name__)
 
+'''
+basedir = os.path.abspath(os.path.dirname(__file__))
+db_path = os.path.join(basedir, "WeatherData.db")
+print(db_path)'''
+
 app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{"/media/rpi/WD PASSPORT/WeatherData/data_collection/WeatherData.db"}'
 db = SQLAlchemy(app)
 metadata = MetaData()
