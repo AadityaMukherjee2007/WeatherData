@@ -1,7 +1,9 @@
 #include <WiFi.h>
 #include <PubSubClient.h>
 #include <ArduinoJson.h>
+#include <Adafruit_BMP280.h>
 
+Adafruit_BMP280 bmp;
 
 const char* WIFI_SSID = "i=q/t#Current";
 const char* WIFI_PASS = "2022#ElectronFlow";
@@ -10,7 +12,7 @@ const char* MQTT_SERVER = "192.168.0.191";
 const int MQTT_PORT = 1883;
 const char* MQTT_TOPIC = "sensor/data";
 
-const unsigned long PUBLISH_INTERVAL = 5000;
+const unsigned long PUBLISH_INTERVAL = 900000;
 
 
 WiFiClient espClient;
@@ -50,11 +52,15 @@ void mqttReconnect() {
 
 
 void publishData() {
-  StaticJsonDocument<100> doc;
+  float temp = bmp.readTemperature();
+  float pressure = bmp.readPressure() / 100.0F;
+  
+  StaticJsonDocument<200> doc;
 
-  doc["data"] = random(0, 1000);
+  doc["temperature"] = temp;
+  doc["pressure"] = pressure;
 
-  char buffer[100];
+  char buffer[200];
   serializeJson(doc, buffer);
 
   client.publish(MQTT_TOPIC, buffer);
@@ -66,6 +72,14 @@ void publishData() {
 void setup() {
   Serial.begin(115200);
   setupWiFi();
+
+  if (!bmp.begin(0x76)) {  
+    Serial.println("Could not find BMP280 sensor at 0x76!");
+    while (1);  
+  } 
+  else {
+    Serial.println("BMP280 initialized!");
+  }
 
   client.setServer(MQTT_SERVER, MQTT_PORT);
 }
