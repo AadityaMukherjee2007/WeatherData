@@ -29,7 +29,7 @@
                 <div>
                     <img src="{{ url_for('static', filename='pressure-gauge.png') }}" height="80px">
                 </div>
-                <div id="atm-val">
+                <div id="temp-val">
                     1017.15 hPa
                 </div>
             </div>
