@@ -7,6 +7,7 @@ body {
 header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     background-color: rgb(81, 81, 220);
     padding: 20px 0;
     margin: 0;
@@ -15,6 +16,7 @@ header {
 
 #header-container {
     display: flex;
+    align-items: center;
     padding: 0 20px;
 }
 
@@ -53,3 +55,41 @@ header {
     }
 }
 
+@media only screen (max-width: 499px) {
+    header {
+        padding: 10% 0;
+    }
+
+    #header {
+        padding: 0 20px;
+        font-size: 45px;
+    }
+
+    #head-icon {
+        height: 60px;
+    }
+
+    #container {
+        flex-direction: column;
+        flex-wrap: wrap;
+        padding: 10px;
+        margin: 20px 20%;
+
+        .card {
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 20px;
+            margin: 20% 40px;
+            border-radius: 20px;
+        }
+
+        #temp-val, #atm-val {
+            font-size: 40px;
+        }
+
+        #temp-icon, #atm-icon {
+            height: 100px;
+        }
+
+    }
+}

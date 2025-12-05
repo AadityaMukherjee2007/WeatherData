@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Dashboard</title>
         <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
         <script src="{{ url_for('static', filename='script.js') }}"></script>
@@ -17,17 +18,17 @@
         </header>
         
         <div id="container">
-            <div id="temp" class="card">
+            <div class="card">
                 <div>
-                    <img src="{{ url_for('static', filename='room-temperature.png') }}" height="80px">
+                    <img id="temp-icon" src="{{ url_for('static', filename='room-temperature.png') }}" height="80px">
                 </div>
                 <div id="temp-val">
                     30°C
                 </div>
             </div>
-            <div id="atm" class="card">
+            <div class="card">
                 <div>
-                    <img src="{{ url_for('static', filename='pressure-gauge.png') }}" height="80px">
+                    <img id="atm-icon" src="{{ url_for('static', filename='pressure-gauge.png') }}" height="80px">
                 </div>
                 <div id="atm-val">
                     1017.15 hPa
