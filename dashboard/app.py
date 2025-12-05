@@ -5,7 +5,12 @@ import os
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{"/media/rpi/WD PASSPORT/WeatherData/data_collection/WeatherData.db"}'
+basedir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+db_path = os.path.join(basedir, "data_collection", "WeatherData.db")
+
+app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{db_path}"
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////media/rpi/WD PASSPORT/WeatherData/data_collection/WeatherData.db'
+
 db = SQLAlchemy(app)
 metadata = MetaData()
 
@@ -23,8 +28,8 @@ def getCuurentData():
 
     if latest_data:
         return jsonify({
-            "temperature": latest_data.temperature,
-            "pressure": latest_data.pressure,
+            "temperature": round(latest_data.temperature, 1),
+            "pressure": round(latest_data.pressure, 2),
             "timestamp": str(latest_data.timestamp)
         })
     return jsonify({

@@ -1,8 +1,23 @@
 import sqlite3, random, json
 import paho.mqtt.client as mqtt
+import os
 
-con = sqlite3.connect("WeatherData.db")
+basedir = os.path.dirname(os.path.abspath(__file__))
+db_path = os.path.join(basedir, "WeatherData.db")
+
+con = sqlite3.connect(db_path)
 cur = con.cursor()
+
+cur.execute('''
+    CREATE TABLE IF NOT EXISTS data (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+        temperature REAL,
+        pressure REAL
+    )
+''')
+con.commit()
+
 
 
 def on_connect(client, userdata, flags, reason_code, properties):
@@ -24,7 +39,7 @@ def on_message(client, userdata, msg):
         cur.execute('SELECT * FROM data ORDER BY timestamp DESC LIMIT 1')
         output = cur.fetchone()
         print(output)
-    except e:
+    except Exception as e:
         print("Error processing message:", e)
 
 
