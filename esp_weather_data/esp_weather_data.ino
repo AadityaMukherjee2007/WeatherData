@@ -82,6 +82,7 @@ void setup() {
   }
 
   client.setServer(MQTT_SERVER, MQTT_PORT);
+  publishData();
 }
 
 
