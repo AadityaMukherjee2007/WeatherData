@@ -1,6 +1,8 @@
-import sqlite3, random, json
+import sqlite3, json
 import paho.mqtt.client as mqtt
 import os
+from datetime import datetime
+import pytz
 
 basedir = os.path.dirname(os.path.abspath(__file__))
 db_path = os.path.join(basedir, "WeatherData.db")
@@ -33,12 +35,14 @@ def on_message(client, userdata, msg):
 
         print(json_data)
 
-        cur.execute('INSERT INTO data (temperature, pressure) VALUES (?, ?)', (temperature, pressure))
+        ist = pytz.timezone('Asia/Kolkata')
+        timestamp = datetime.now(ist).strftime("%Y-%m-%d %H:%M:%S")
+
+        cur.execute('INSERT INTO data (timestamp, temperature, pressure) VALUES (?, ?)', (timestamp, temperature, pressure))
         con.commit()
 
         cur.execute('SELECT * FROM data ORDER BY timestamp DESC LIMIT 1')
-        output = cur.fetchone()
-        print(output)
+        print(cur.fetchone())
     except Exception as e:
         print("Error processing message:", e)
 
