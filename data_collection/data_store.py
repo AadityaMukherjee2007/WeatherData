@@ -1,8 +1,19 @@
 import sqlite3, random, json
 import paho.mqtt.client as mqtt
 
-con = sqlite3.connect("WeatherData.db")
+con = sqlite3.connect("/media/rpi/WD PASSPORT/WeatherData/data_collection/WeatherData.db")
 cur = con.cursor()
+
+cur.execute('''
+    CREATE TABLE IF NOT EXISTS data (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+        temperature REAL,
+        pressure REAL
+    )
+''')
+con.commit()
+
 
 
 def on_connect(client, userdata, flags, reason_code, properties):

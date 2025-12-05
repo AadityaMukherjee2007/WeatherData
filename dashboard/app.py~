@@ -23,7 +23,7 @@ def getCuurentData():
 
     if latest_data:
         return jsonify({
-            "temperature": round(latest_data.temperature, 1),
+            "temperature": latest_data.temperature,
             "pressure": round(latest_data.pressure, 2),
             "timestamp": str(latest_data.timestamp)
         })
