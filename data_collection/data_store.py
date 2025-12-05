@@ -1,7 +1,11 @@
 import sqlite3, random, json
 import paho.mqtt.client as mqtt
+import os
 
-con = sqlite3.connect("/media/rpi/WD PASSPORT/WeatherData/data_collection/WeatherData.db")
+basedir = os.path.dirname(os.path.abspath(__file__))
+db_path = os.path.join(basedir, "WeatherData.db")
+
+con = sqlite3.connect(db_path)
 cur = con.cursor()
 
 cur.execute('''
