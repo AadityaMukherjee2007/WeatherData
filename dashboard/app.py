@@ -22,7 +22,7 @@ def index():
     return render_template('index.html')
 
 @app.route('/getCurrentData')
-def getCuurentData():
+def getCurrentData():
     WeatherData = get_weather_table()
     latest_data = db.session.query(WeatherData).order_by(WeatherData.c.timestamp.desc()).first()
 
