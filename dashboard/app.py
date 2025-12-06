@@ -12,19 +12,19 @@ app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{db_path}"
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////media/rpi/WD PASSPORT/WeatherData/data_collection/WeatherData.db'
 
 db = SQLAlchemy(app)
-metadata = MetaData()
 
-with app.app_context():
-    WeatherData = Table('data', metadata, autoload_with=db.engine)
-
+def get_weather_table():
+    metadata = MetaData()
+    return Table('data', metadata, autoload_with=db.engine)
+    
 @app.route('/')
 def index():
     return render_template('index.html')
 
 @app.route('/getCurrentData')
 def getCuurentData():
-    query = db.session.query(WeatherData).order_by(WeatherData.c.timestamp.desc())
-    latest_data = query.first()
+    WeatherData = get_weather_table()
+    latest_data = db.session.query(WeatherData).order_by(WeatherData.c.timestamp.desc()).first()
 
     if latest_data:
         return jsonify({
