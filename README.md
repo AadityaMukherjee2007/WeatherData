@@ -123,8 +123,8 @@ WeatherData/<br/>
 Reads sensor values and publishes JSON such as:
 ```json
 {
-  "temperature": 28.5,
-  "pressure": 1008.1
+  "temperature": 28.52,
+  "pressure": 1008.172
 }
 ```
 
