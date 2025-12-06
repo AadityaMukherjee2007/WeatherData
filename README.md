@@ -134,8 +134,8 @@ Listens for incoming data and writes it into an SQLite database.
 
 ### 3. Flask API
 
-Provides an endpoint ```/latest``` returning the newest reading.
+Provides an endpoint ```/getCurrentData``` returning the newest reading.
 
 ### 4. JavaScript Dashboard
 
-Fetches ```/latest``` periodically and updates the interface in real time.
+Fetches ```/getCurrentData``` periodically and updates the interface in real time.
