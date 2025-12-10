@@ -1,18 +1,24 @@
-#include <WiFi.h>
+#include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 #include <ArduinoJson.h>
 #include <Adafruit_BMP280.h>
+#include <DHT.h>
 
-Adafruit_BMP280 bmp;
+#define DHTPIN 2
+#define DHTTYPE DHT22
+
+Adafruit_BMP280 bmp; 
+DHT dht(DHTPIN, DHTTYPE);
 
 const char* WIFI_SSID = "i=q/t#Current";
 const char* WIFI_PASS = "2022#ElectronFlow";
 
 const char* MQTT_SERVER = "192.168.0.191"; 
+//const char* MQTT_SERVER = "192.168.0.142"; 
 const int MQTT_PORT = 1883;
 const char* MQTT_TOPIC = "sensor/data";
 
-const unsigned long PUBLISH_INTERVAL = 900000;
+const unsigned long PUBLISH_INTERVAL = 1000;
 
 
 WiFiClient espClient;
@@ -39,7 +45,7 @@ void setupWiFi() {
 void mqttReconnect() {
   while (!client.connected()) {
     Serial.print("Connecting to MQTT...");
-    if (client.connect("ESP32Client")) {
+    if (client.connect("ESP8266Client")) {
       Serial.println("connected!");
     } else {
       Serial.print("failed, rc=");
@@ -52,18 +58,34 @@ void mqttReconnect() {
 
 
 void publishData() {
-  float temp = bmp.readTemperature();
+  // float temp = bmp.readTemperature();
+  float temp_c = dht.readTemperature();
+  float temp_f = dht.readTemperature(true);
+  float humidity = dht.readHumidity();
+  float hif = dht.computeHeatIndex(temp_f, humidity);
+  float hic = dht.computeHeatIndex(temp_c, humidity, false);
   float pressure = bmp.readPressure() / 100.0F;
   
-  StaticJsonDocument<200> doc;
+  
+  StaticJsonDocument<256> doc;
 
-  doc["temperature"] = temp;
+  // Calculate dew point
+  float dewPoint = temp_c - ((100 - humidity) / 5.0f); // Approximation formula
+
+  doc["temperature_c"] = temp_c;
+  doc["temperature_f"] = temp_f;
+  doc["humidity"] = humidity;
+  doc["heatIndex_c"] = hic;
+  doc["heatIndex_f"] = hif;
   doc["pressure"] = pressure;
-
-  char buffer[200];
+  doc["dewPoint_c"] = dewPoint;
+  
+  
+  char buffer[256];
   serializeJson(doc, buffer);
 
   client.publish(MQTT_TOPIC, buffer);
+  delay(100);
   Serial.print("Published: ");
   Serial.println(buffer);
 }
@@ -79,7 +101,10 @@ void setup() {
   } 
   else {
     Serial.println("BMP280 initialized!");
+  
   }
+
+  dht.begin();
 
   client.setServer(MQTT_SERVER, MQTT_PORT);
   publishData();

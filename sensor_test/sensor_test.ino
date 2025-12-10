@@ -3,8 +3,8 @@
 
 Adafruit_BMP280 bmp; 
 
-#define DHTPIN 4
-#define DHTTYPE DHT11
+#define DHTPIN 2
+#define DHTTYPE DHT22
 DHT dht(DHTPIN, DHTTYPE);
 
 unsigned long lastRead = 0;
@@ -29,7 +29,8 @@ void loop() {
     // Read sensors
     float bmpTemp = bmp.readTemperature();            // Temperature from BMP280
     float pressure = bmp.readPressure() / 100.0F;     // Pressure in hPa
-    float humidity = dht.readHumidity();              // Humidity from DHT11
+    float humidity = dht.readHumidity();              // Humidity from DHT22
+    float dhtTemp = dht.readTemperature();            // Temperature from DHT22
 
     // Check for reading errors
 //    if (isnan(humidity) || isnan(bmpTemp) || isnan(pressure)) {
@@ -46,7 +47,11 @@ void loop() {
     Serial.print(pressure);
     Serial.println(" hPa");
 
-    Serial.print("Humidity (DHT11): ");
+    Serial.print("Temperature (DHT22): ");
+    Serial.print(dhtTemp);
+    Serial.println(" °C");
+
+    Serial.print("Humidity (DHT22): ");
     Serial.print(humidity);
     Serial.println(" %");
 
