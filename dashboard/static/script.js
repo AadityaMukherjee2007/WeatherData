@@ -21,7 +21,7 @@ function updateValues() {
     .then(data => {
         console.log(data);
         
-        temp_val.textContent = `${data['temperature']}°C`;
+        temp_val.textContent = `${data['temp_c']}°C`;
         atm_val.textContent = `${data['pressure']} hPa`;
     })
     .catch(error => console.error(error));
