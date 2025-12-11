@@ -14,7 +14,12 @@ cur.execute('''
     CREATE TABLE IF NOT EXISTS data (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
-        temperature REAL,
+        temperature_c REAL,
+        temperature_f REAL, 
+        humidity REAL, 
+        heatIndex_c REAL, 
+        heatIndex_f REAL, 
+        dewPoint_c REAL, 
         pressure REAL
     )
 ''')
@@ -30,15 +35,20 @@ def on_connect(client, userdata, flags, reason_code, properties):
 def on_message(client, userdata, msg):
     try: 
         json_data = json.loads(msg.payload)
-        temperature = json_data["temperature"]
+        temp_c = json_data["temperature_c"]
+        temp_f = json_data["temperature_f"] 
+        humidity = json_data["humidity"]
+        heatIndex_c = json_data["heatIndex_c"]
+        heatIndex_f = json_data["heatIndex_f"]
         pressure = json_data["pressure"]
+        dewPoint_c = json_data["dewPoint_c"]
 
         print(json_data)
 
         ist = pytz.timezone('Asia/Kolkata')
         timestamp = datetime.now(ist).strftime("%Y-%m-%d %H:%M:%S")
 
-        cur.execute('INSERT INTO data (timestamp, temperature, pressure) VALUES (?, ?, ?)', (timestamp, temperature, pressure))
+        cur.execute('INSERT INTO data (timestamp, temperature_c, temperature_f, humidity, heatIndex_c, heatIndex_f, pressure, dewPoint_c) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', (timestamp, temp_c, temp_f, humidity, heatIndex_c, heatIndex_f, pressure, dewPoint_c))
         con.commit()
 
         cur.execute('SELECT * FROM data ORDER BY timestamp DESC LIMIT 1')
