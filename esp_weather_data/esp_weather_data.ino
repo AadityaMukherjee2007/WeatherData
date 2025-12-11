@@ -65,11 +65,21 @@ void publishData() {
   float hic = dht.computeHeatIndex(temp_c, humidity, false);
   float pressure = bmp.readPressure() / 100.0F;
   
+  if (isnan(humidity) || isnan(temp_c) || isnan(temp_f)) {
+    Serial.println(F("Failed to read from DHT sensor!"));
+    return;
+  }
   
-  StaticJsonDocument<256> doc;
+  StaticJsonDocument<180> doc;
 
   // Calculate dew point
-  float dewPoint = temp_c - ((100 - humidity) / 5.0f); // Approximation formula
+  // float dewPoint = temp_c - ((100 - humidity) / 5.0f);
+
+  // Magnus formula to calculate dew point
+  float a = 17.62;
+  float b = 243.5;
+  float gamma = (a * temp_c / (b + temp_c)) + log(humidity / 100.0);
+  float dewPoint = (b * gamma) / (a - gamma);
 
   doc["temperature_c"] = temp_c;
   doc["temperature_f"] = temp_f;
@@ -79,16 +89,13 @@ void publishData() {
   doc["pressure"] = pressure;
   doc["dewPoint_c"] = dewPoint;
   
-  
-  char buffer[256];
+  char buffer[180];
   serializeJson(doc, buffer);
 
   client.publish(MQTT_TOPIC, buffer);
-  delay(100);
   Serial.print("Published: ");
   Serial.println(buffer);
 }
-
 
 void setup() {
   Serial.begin(115200);
@@ -106,6 +113,7 @@ void setup() {
   dht.begin();
 
   client.setServer(MQTT_SERVER, MQTT_PORT);
+  delay(2000);
   publishData();
 }
 
