@@ -14,11 +14,10 @@ const char* WIFI_SSID = "i=q/t#Current";
 const char* WIFI_PASS = "2022#ElectronFlow";
 
 const char* MQTT_SERVER = "192.168.0.191"; 
-//const char* MQTT_SERVER = "192.168.0.142"; 
 const int MQTT_PORT = 1883;
 const char* MQTT_TOPIC = "sensor/data";
 
-const unsigned long PUBLISH_INTERVAL = 1000;
+const unsigned long PUBLISH_INTERVAL = 10000;
 
 
 WiFiClient espClient;
