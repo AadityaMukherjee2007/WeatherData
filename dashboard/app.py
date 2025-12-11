@@ -29,7 +29,7 @@ def getCurrentData():
     if latest_data:
         return jsonify({
             "temp_c": latest_data.temperature_c,
-            "temp_f": latest_data.temperature_f,
+            "temp_f": round(latest_data.temperature_f, 1),
             "humidity": latest_data.humidity,
             "heatIndex_c": round(latest_data.heatIndex_c, 2),
             "heatIndex_f": round(latest_data.heatIndex_f, 2),

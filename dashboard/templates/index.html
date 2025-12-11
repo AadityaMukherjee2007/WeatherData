@@ -23,16 +23,22 @@
                 <div>
                     <img id="temp-icon" src="{{ url_for('static', filename='room-temperature.png') }}" height="80px">
                 </div>
-                <div id="temp-val">
-                    23.8°C
+                <div id="two_val">
+                    <div id="temp-val">
+                        23.8°C
+                    </div>
+                    <div id="fahrenheit_val">74.8°F</div>
                 </div>
             </div>
             <div class="card" data-description="Heat Index">
                 <div>
                     <img id="HI-icon" src="{{ url_for('static', filename='heat_index.png') }}" height="80px">
                 </div>
-                <div id="HI-val">
-                    23.75°C
+                <div id="two_val">
+                    <div id="HI-val">
+                        23.75°C
+                    </div>
+                    <div id="fahrenheit_val">74.76°F</div>
                 </div>
             </div>
             <div class="card" data-description="Humidity">
