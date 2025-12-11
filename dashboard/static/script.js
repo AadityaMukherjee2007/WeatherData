@@ -28,9 +28,9 @@ function updateValues() {
         console.log(data);
         
         temp_val.textContent = `${data['temp_c']}°C`;
-        temp_val_f.textContent = `${data['temp_f']}°C`;
+        temp_val_f.textContent = `${data['temp_f']}°F`;
         HI_val.textContent = `${data['heatIndex_c']}°C`;
-        HI_val_f.textContent = `${data['heatIndex_f']}°C`;
+        HI_val_f.textContent = `${data['heatIndex_f']}°F`;
         humidity_val.textContent = `${data['humidity']}%`;
         dewpoint_val.textContent = `${data['dewPoint_c']}°C`;
         atm_val.textContent = `${data['pressure']} hPa`;
