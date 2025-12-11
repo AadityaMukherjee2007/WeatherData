@@ -33,7 +33,7 @@ def getCurrentData():
             "humidity": latest_data.humidity,
             "heatIndex_c": round(latest_data.heatIndex_c, 2),
             "heatIndex_f": round(latest_data.heatIndex_f, 2),
-            "dewPoint_c": latest_data.dewPoint_c,
+            "dewPoint_c": round(latest_data.dewPoint_c, 2),
             "pressure": round(latest_data.pressure, 2),
             "timestamp": str(latest_data.timestamp)
         })
