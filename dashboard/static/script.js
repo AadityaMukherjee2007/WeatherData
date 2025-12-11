@@ -15,7 +15,9 @@ function displayTime() {
 
 function updateValues() {
     const temp_val = document.getElementById('temp-val');
+    const temp_val_f = document.getElementById('temp-val-f');
     const HI_val = document.getElementById('HI-val');
+    const HI_val_f = document.getElementById('HI-val-f');
     const humidity_val = document.getElementById('humidity-val');
     const dewpoint_val = document.getElementById('dewpoint-val');
     const atm_val = document.getElementById('atm-val');
@@ -26,9 +28,11 @@ function updateValues() {
         console.log(data);
         
         temp_val.textContent = `${data['temp_c']}°C`;
-        HI_val.textContent = `${data['heatIndex_c']}°C`
-        humidity_val.textContent = `${data['humidity']}%`
-        dewpoint_val.textContent = `${data['dewPoint_c']}°C`
+        temp_val_f.textContent = `${data['temp_f']}°C`;
+        HI_val.textContent = `${data['heatIndex_c']}°C`;
+        HI_val_f.textContent = `${data['heatIndex_f']}°C`;
+        humidity_val.textContent = `${data['humidity']}%`;
+        dewpoint_val.textContent = `${data['dewPoint_c']}°C`;
         atm_val.textContent = `${data['pressure']} hPa`;
     })
     .catch(error => console.error(error));

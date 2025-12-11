@@ -60,7 +60,7 @@ header {
     flex-direction: column;
 }
 
-#fahrenheit_val {
+.fahrenheit_val {
     float: right;
     font-size: medium;
 }
