@@ -27,7 +27,7 @@ function updateValues() {
         
         temp_val.textContent = `${data['temp_c']}°C`;
         HI_val.textContent = `${data['heatIndex_c']}°C`
-        humidity_val.textContent = `${data['humidity']}°C`
+        humidity_val.textContent = `${data['humidity']}%`
         dewpoint_val.textContent = `${data['dewPoint_c']}°C`
         atm_val.textContent = `${data['pressure']} hPa`;
     })

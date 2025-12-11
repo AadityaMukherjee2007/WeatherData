@@ -17,7 +17,7 @@ const char* MQTT_SERVER = "192.168.0.191";
 const int MQTT_PORT = 1883;
 const char* MQTT_TOPIC = "sensor/data";
 
-const unsigned long PUBLISH_INTERVAL = 10000;
+const unsigned long PUBLISH_INTERVAL = 900000;
 
 
 WiFiClient espClient;
