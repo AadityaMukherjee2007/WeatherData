@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
     dataDescription();
 
     setInterval(displayTime, 1000);
-    setInterval(updateValues, 480000); // update values after 7 mins
+    setInterval(updateValues, 300000); // update values after 5 mins
 })
 
 function displayTime() {
