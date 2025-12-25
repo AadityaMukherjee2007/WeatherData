@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Table, MetaData
 import os
@@ -28,6 +28,7 @@ def getCurrentData():
 
     if latest_data:
         return jsonify({
+            "id": latest_data.id,
             "temp_c": latest_data.temperature_c,
             "temp_f": round(latest_data.temperature_f, 1),
             "humidity": latest_data.humidity,
@@ -40,6 +41,31 @@ def getCurrentData():
     return jsonify({
         "error": "No data found"
     })
+
+@app.route('/getData')
+def getData():
+    num = request.args.get('n', default=1, type=int)
+
+    WeatherData = get_weather_table()
+    data = db.session.query(WeatherData).order_by(WeatherData.c.timestamp.desc()).limit(num).all()
+
+    return jsonify({
+        "data": [
+            {
+                "id": r.id,
+                "temp_c": r.temperature_c,
+                "temp_f": round(r.temperature_f, 1),
+                "humidity": r.humidity,
+                "heatIndex_c": round(r.heatIndex_c, 2),
+                "heatIndex_f": round(r.heatIndex_f, 2),
+                "dewPoint_c": round(r.dewPoint_c, 2),
+                "pressure": round(r.pressure, 2),
+                "timestamp": str(r.timestamp)
+            }
+            for r in data
+        ]
+    })
+
 
 if __name__ == "__main__":
     app.run(debug=True)
