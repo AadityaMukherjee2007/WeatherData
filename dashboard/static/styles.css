@@ -95,6 +95,8 @@ header {
 footer {
     margin-top: auto;
     margin-bottom: 0;
+    margin-left: 0;
+    margin-right: 0;
     padding: 30px;
     background-color: lightgray;
 
@@ -109,7 +111,7 @@ footer {
 }
 
 
-@media only screen and (max-width: 499px) {
+@media only screen (max-width: 499px) {
     header {
         padding: 10% 0;
     }
