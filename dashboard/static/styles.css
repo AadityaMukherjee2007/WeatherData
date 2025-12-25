@@ -1,6 +1,11 @@
-body {
+html, body {
+    height: 100%;
     margin: 0;
-    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
@@ -18,6 +23,7 @@ header {
     display: flex;
     align-items: center;
     padding: 0 20px;
+    cursor: pointer;
 }
 
 #header {
@@ -86,8 +92,24 @@ header {
     cursor: pointer;
 }
 
+footer {
+    margin-top: auto;
+    margin-bottom: 0;
+    padding: 30px;
+    background-color: lightgray;
 
-@media only screen (max-width: 499px) {
+    a {
+        text-decoration: none;
+        color: black;
+    }
+
+    a:hover {
+        color: gray;
+    }
+}
+
+
+@media only screen and (max-width: 499px) {
     header {
         padding: 10% 0;
     }

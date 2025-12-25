@@ -19,7 +19,11 @@ def get_weather_table():
     
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('dashboard.html')
+
+@app.route('/records')
+def showRecords():
+    return render_template('recordData.html')
 
 @app.route('/getCurrentData')
 def getCurrentData():

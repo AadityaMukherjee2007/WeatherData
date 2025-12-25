@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %} Dashboard {% endblock %}
+
+{% block container %}
+    <div id="container">
+        <div class="card" data-description="Temperature">
+            <div>
+                <img id="temp-icon" src="{{ url_for('static', filename='room-temperature.png') }}" height="80px">
+            </div>
+            <div id="two_val">
+                <div id="temp-val">
+                    23.8°C
+                </div>
+                <div class="fahrenheit_val" id="temp-val-f">74.8°F</div>
+            </div>
+        </div>
+        <div class="card" data-description="Heat Index">
+            <div>
+                <img id="HI-icon" src="{{ url_for('static', filename='heat_index.png') }}" height="80px">
+            </div>
+            <div id="two_val">
+                <div id="HI-val">
+                    23.75°C
+                </div>
+                <div class="fahrenheit_val" id="HI-val-f">74.76°F</div>
+            </div>
+        </div>
+        <div class="card" data-description="Humidity">
+            <div>
+                <img id="humidity-icon" src="{{ url_for('static', filename='humidity.png') }}" height="80px">
+            </div>
+            <div id="humidity-val">
+                58.2%
+            </div>
+        </div>
+        <div class="card" data-description="Dew Point">
+            <div>
+                <img id="dewpoint-icon" src="{{ url_for('static', filename='dewpoint.png') }}" height="80px">
+            </div>
+            <div id="dewpoint-val">
+                15.44°C
+            </div>
+        </div>
+        <div class="card" data-description="Pressure">
+            <div>
+                <img id="atm-icon" src="{{ url_for('static', filename='pressure-gauge.png') }}" height="80px">
+            </div>
+            <div id="atm-val">
+                1018.52 hPa
+            </div>
+        </div>
+    </div>
+{% endblock %}

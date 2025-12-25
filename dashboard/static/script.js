@@ -1,10 +1,17 @@
 document.addEventListener('DOMContentLoaded', function () {
     updateValues();
     dataDescription();
+    dashboardRedirect();
 
     setInterval(displayTime, 1000);
     setInterval(updateValues, 300000); // update values after 5 mins
 })
+
+function dashboardRedirect() {
+    document.getElementById('header-container').onclick = () => {
+        window.location.href = "/";
+    };
+}
 
 function displayTime() {
     const time_div = document.getElementById("time_div");
