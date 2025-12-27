@@ -1,3 +1,13 @@
 {% extends 'base.html' %}
 
 {% block title %} Records {% endblock %}
+
+{% block container %}
+    <form>
+        <input id="numberOfRecords" type="number" min="1">
+        <input type="submit" value="Get Records">
+    </form>
+
+    <div id="record-div"></div>
+    <script src="{{ url_for('static', filename='records.js') }}"></script>
+{% endblock %}

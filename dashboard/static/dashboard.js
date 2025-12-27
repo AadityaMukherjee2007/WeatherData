@@ -1,17 +1,12 @@
 document.addEventListener('DOMContentLoaded', function () {
     updateValues();
     dataDescription();
-    dashboardRedirect();
 
     setInterval(displayTime, 1000);
     setInterval(updateValues, 300000); // update values after 5 mins
-})
+});
 
-function dashboardRedirect() {
-    document.getElementById('header-container').onclick = () => {
-        window.location.href = "/";
-    };
-}
+
 
 function displayTime() {
     const time_div = document.getElementById("time_div");
@@ -56,11 +51,14 @@ function dataDescription() {
         });
 
         card.addEventListener("mousemove", (e) => {
-            const offsetX = 60;  
-            const offsetY = 60;  
-            tooltip.style.left = `${e.clientX + offsetX}px`;
-            tooltip.style.top = `${e.clientY + offsetY}px`;
+            const padding = 12;
+            const maxX = window.innerWidth - tooltip.offsetWidth - padding;
+            const maxY = window.innerHeight - tooltip.offsetHeight - padding;
+        
+            tooltip.style.left = `${Math.min(e.clientX + padding, maxX)}px`;
+            tooltip.style.top  = `${Math.min(e.clientY + padding, maxY)}px`;
         });
+        
 
         card.addEventListener("mouseleave", () => {
             tooltip.style.opacity = 0;
