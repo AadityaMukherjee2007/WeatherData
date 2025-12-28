@@ -3,18 +3,8 @@ document.addEventListener('DOMContentLoaded', function () {
     dataDescription();
     updateChart();
 
-    setInterval(displayTime, 1000);
     setInterval(updateValues, 300000); // update values after 5 mins
 });
-
-
-
-function displayTime() {
-    const time_div = document.getElementById("time_div");
-
-    const now = new Date();
-    time_div.textContent = now.toLocaleTimeString();
-}
 
 function updateValues() {
     const temp_val = document.getElementById('temp-val');

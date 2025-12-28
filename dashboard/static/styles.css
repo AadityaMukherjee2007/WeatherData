@@ -144,8 +144,15 @@ footer {
     background-color: gray;
 }
 
+#table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+}
+
 #record-table {
-    margin: 30px 0px;
+    margin: 30px 0;
     width: 100%;
     min-width: 900px;  
     /* border-collapse: collapse; */
@@ -205,13 +212,7 @@ footer {
 
     }
 
-    #table-wrapper {
-        width: 100%;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-    }
-
     #record-table {
         margin: 30px 7px;
-    }
+    } 
 }
