@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     updateValues();
     dataDescription();
+    updateChart();
 
     setInterval(displayTime, 1000);
     setInterval(updateValues, 300000); // update values after 5 mins
@@ -64,4 +65,76 @@ function dataDescription() {
             tooltip.style.opacity = 0;
         });
     });
+}
+
+let chart = null;
+
+function updateChart() {
+    fetch('/getData?n=12')
+        .then(res => res.json())
+        .then(result => {
+            const data = result.data.reverse();
+
+            const labels = data.map(d =>
+                new Date(d.timestamp).toLocaleTimeString([], {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                })
+            );
+
+            const temp = data.map(d => d.temp_c);
+            const dew = data.map(d => d.dewPoint_c);
+            const heat = data.map(d => d.heatIndex_c);
+
+            const ctx = document.getElementById("chart").getContext("2d");
+
+            if (chart) chart.destroy();
+
+            chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels,
+                    datasets: [
+                        {
+                            label: 'Temperature (°C)',
+                            data: temp,
+                            borderWidth: 2,
+                            tension: 0.3,
+                            pointRadius: 2
+                        },
+                        {
+                            label: 'Dew Point (°C)',
+                            data: dew,
+                            borderWidth: 2,
+                            borderDash: [6, 6],
+                            tension: 0.3,
+                            pointRadius: 1
+                        },
+                        {
+                            label: 'Heat Index (°C)',
+                            data: heat,
+                            borderWidth: 2,
+                            borderDash: [2, 4],
+                            tension: 0.3,
+                            pointRadius: 0
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    scales: {
+                        y: {
+                            ticks: {
+                                precision: 1
+                            }
+                        }
+                    }
+                }
+            });
+        });
 }
