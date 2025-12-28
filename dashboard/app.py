@@ -49,9 +49,10 @@ def getCurrentData():
 @app.route('/getData')
 def getData():
     num = request.args.get('n', default=1, type=int)
+    offset = request.args.get("offset", default=0, type=int)
 
     WeatherData = get_weather_table()
-    data = db.session.query(WeatherData).order_by(WeatherData.c.timestamp.desc()).limit(num).all()
+    data = db.session.query(WeatherData).order_by(WeatherData.c.timestamp.desc()).offset(offset).limit(num).all()
 
     return jsonify({
         "data": [

@@ -106,9 +106,25 @@ footer {
     }
 }
 
-#numberOfRecords {
+#record-form {
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+#query-form-input-params {
+    margin-bottom: 10px;
+}
+
+#numberOfRecords, #offset {
     width: 5%;
-    margin: 20px;
+    margin: 5px 10px;
+}
+
+#query-btn {
+    width: 30%;
+    border-radius: 5px;
+    border-color: white;
 }
 
 #table-wrapper {
