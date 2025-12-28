@@ -116,7 +116,7 @@ function updateChart() {
                             borderWidth: 2,
                             borderDash: [2, 4],
                             tension: 0.3,
-                            pointRadius: 0
+                            pointRadius: 1.5
                         }
                     ]
                 },
