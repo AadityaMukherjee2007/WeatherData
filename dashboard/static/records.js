@@ -5,7 +5,7 @@ const record_table = document.getElementById("record-table");
 
 function displayData() {
     record_table.innerHTML = `
-        <tr>
+        <tr id="table-header">
             <th>id</th>
             <th>Timestamp</th>
             <th>Temperature (°C)</th>
