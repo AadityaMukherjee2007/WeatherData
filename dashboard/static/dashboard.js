@@ -71,70 +71,120 @@ let chart = null;
 
 function updateChart() {
     fetch('/getData?n=12')
-        .then(res => res.json())
-        .then(result => {
-            const data = result.data.reverse();
+    .then(res => res.json())
+    .then(result => {
+        const data = result.data.reverse();
 
-            const labels = data.map(d =>
-                new Date(d.timestamp).toLocaleTimeString([], {
-                    hour: '2-digit',
-                    minute: '2-digit'
-                })
-            );
+        const labels = data.map(d =>
+            new Date(d.timestamp).toLocaleTimeString([], {
+                hour: '2-digit',
+                minute: '2-digit'
+            })
+        );
 
-            const temp = data.map(d => d.temp_c);
-            const dew = data.map(d => d.dewPoint_c);
-            const heat = data.map(d => d.heatIndex_c);
+        const temp = data.map(d => d.temp_c);
+        const dew  = data.map(d => d.dewPoint_c);
+        const heat = data.map(d => d.heatIndex_c);
+        const pres = data.map(d => d.pressure);
+        const hum  = data.map(d => d.humidity);
 
-            const ctx = document.getElementById("chart").getContext("2d");
+        const ctx = document.getElementById("chart").getContext("2d");
 
-            if (chart) chart.destroy();
+        if (chart) chart.destroy();
 
-            chart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels,
-                    datasets: [
-                        {
-                            label: 'Temperature (°C)',
-                            data: temp,
-                            borderWidth: 2,
-                            tension: 0.3,
-                            pointRadius: 2
-                        },
-                        {
-                            label: 'Dew Point (°C)',
-                            data: dew,
-                            borderWidth: 2,
-                            borderDash: [6, 6],
-                            tension: 0.3,
-                            pointRadius: 1
-                        },
-                        {
-                            label: 'Heat Index (°C)',
-                            data: heat,
-                            borderWidth: 2,
-                            borderDash: [2, 4],
-                            tension: 0.3,
-                            pointRadius: 1.5
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    interaction: {
-                        mode: 'index',
-                        intersect: false
+        chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels,
+                datasets: [
+                    {
+                        label: 'Temperature (°C)',
+                        data: temp,
+                        yAxisID: 'yTemp',
+                        borderWidth: 2,
+                        tension: 0.3,
+                        pointRadius: 2
                     },
-                    scales: {
-                        y: {
-                            ticks: {
-                                precision: 1
-                            }
+                    {
+                        label: 'Dew Point (°C)',
+                        data: dew,
+                        yAxisID: 'yTemp',
+                        borderDash: [6, 6],
+                        borderWidth: 2,
+                        tension: 0.3,
+                        pointRadius: 0
+                    },
+                    {
+                        label: 'Heat Index (°C)',
+                        data: heat,
+                        yAxisID: 'yTemp',
+                        borderDash: [2, 4],
+                        borderWidth: 2,
+                        tension: 0.3,
+                        pointRadius: 0
+                    },
+                    {
+                        label: 'Pressure (hPa)',
+                        data: pres,
+                        yAxisID: 'yPressure',
+                        borderWidth: 2,
+                        tension: 0.3,
+                        pointRadius: 0
+                    },
+                    {
+                        label: 'Humidity (%)',
+                        data: hum,
+                        yAxisID: 'yHumidity',
+                        borderDash: [4, 4],
+                        borderWidth: 2,
+                        tension: 0.3,
+                        pointRadius: 0
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false
+                },
+                scales: {
+                    yTemp: {
+                        type: 'linear',
+                        position: 'left',
+                        title: {
+                            display: true,
+                            text: 'Temperature (°C)'
+                        }
+                    },
+                    yPressure: {
+                        type: 'linear',
+                        position: 'right',
+                        grid: {
+                            drawOnChartArea: false
+                        },
+                        title: {
+                            display: true,
+                            text: 'Pressure (hPa)'
+                        }
+                    },
+                    yHumidity: {
+                        type: 'linear',
+                        position: 'right',
+                        offset: true,
+                        min: 0,
+                        max: 100,
+                        grid: {
+                            drawOnChartArea: false
+                        },
+                        title: {
+                            display: true,
+                            text: 'Humidity (%)'
                         }
                     }
                 }
-            });
+            }
         });
+    });
 }
