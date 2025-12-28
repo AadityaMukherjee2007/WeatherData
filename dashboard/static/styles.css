@@ -228,4 +228,10 @@ footer {
         margin: 25px 10px;
         overflow-x: auto;
     }
+
+    .chart-container {
+        height: 55vh;   
+        min-height: 380px;
+        max-height: 520px;
+    }
 }
