@@ -8,7 +8,9 @@
         <input type="submit" value="Get Records">
     </form>
 
-    <table id="record-table"></table>
+    <div id="table-wrapper">
+        <table id="record-table"></table>
+    </div>
 
     <script src="{{ url_for('static', filename='records.js') }}"></script>
 {% endblock %}

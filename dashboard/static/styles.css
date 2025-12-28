@@ -111,8 +111,17 @@ footer {
     margin: 20px;
 }
 
+#table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
 #record-table {
     margin: 30px 0;
+    width: 100%;
+    min-width: 900px;  
+    /* border-collapse: collapse; */
 
     td, th {
         text-align: center;
