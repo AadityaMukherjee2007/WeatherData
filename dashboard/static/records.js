@@ -1,10 +1,23 @@
 const num = document.getElementById("numberOfRecords");
 num.defaultValue = 5;
 
-const record_div = document.getElementById("record-div");
+const record_table = document.getElementById("record-table");
 
-document.querySelector("form").onsubmit = (event) => {
-    event.preventDefault();
+function displayData() {
+    record_table.innerHTML = `
+        <tr>
+            <th>id</th>
+            <th>Timestamp</th>
+            <th>Temperature (°C)</th>
+            <th>Temperature (°F)</th>
+            <th>Humidty (%)</th>
+            <th>Heat Index (°C)</th>
+            <th>Heat Index (°F)</th>
+            <th>Pressure (hPa)</th>
+            <th>Dew Point (°C)</th>
+        </tr>
+        <br>
+    `;
 
     fetch(`getData?n=${num.value}`)
     .then(request => request.json())
@@ -12,14 +25,28 @@ document.querySelector("form").onsubmit = (event) => {
         console.log(result.data);
 
         result.data.forEach(dataset => {
-            // console.log(dataset);
-
-            const record = document.createElement("div");
+            const record = document.createElement("tr");
             record.id = dataset.id;
             record.className = "records";
-            record.innerHTML = `Time: ${dataset.timestamp}, Temp: ${dataset.temp_c}°C`;
-
-            record_div.appendChild(record);
+            record.innerHTML = `
+                <td>${dataset.id}</td>
+                <td>${dataset.timestamp}</td>
+                <td>${dataset.temp_c}</td>
+                <td>${dataset.temp_f}</td> 
+                <td>${dataset.humidity}</td>
+                <td>${dataset.heatIndex_c}</td>
+                <td>${dataset.heatIndex_f}</td>
+                <td>${dataset.pressure}</td>
+                <td>${dataset.dewPoint_c}</td>
+            `;
+            record_table.appendChild(record);
         });
     })
+}
+
+displayData();
+
+document.querySelector("form").onsubmit = (event) => {
+    event.preventDefault();
+    displayData();
 }
