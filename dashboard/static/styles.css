@@ -107,7 +107,7 @@ footer {
 }
 
 #numberOfRecords {
-    width: 3%;
+    width: 5%;
     margin: 20px;
 }
 
@@ -118,7 +118,7 @@ footer {
 }
 
 #record-table {
-    margin: 30px 5px;
+    margin: 30px 7px;
     width: 100%;
     min-width: 900px;  
     /* border-collapse: collapse; */
