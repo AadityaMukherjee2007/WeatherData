@@ -3,9 +3,18 @@
 {% block title %} Records {% endblock %}
 
 {% block container %}
-    <form>
-        <input id="numberOfRecords" type="number" min="1">
-        <input type="submit" value="Get Records">
+    <form id="record-form">
+        <div id="query-form-input-params">
+            <div>
+                <label>Number of Records </label>
+                <input id="numberOfRecords" type="number" min="1">
+            </div>
+            <div>
+                <label>Offset </label>
+                <input id="offset" type="number" min="0">
+            </div>
+        </div>
+        <input id="query-btn" type="submit" value="Get Records">
     </form>
 
     <div id="table-wrapper">

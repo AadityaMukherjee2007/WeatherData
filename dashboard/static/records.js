@@ -1,5 +1,7 @@
 const num = document.getElementById("numberOfRecords");
+const offset = document.getElementById("offset");
 num.defaultValue = 5;
+offset.defaultValue = 0;
 
 const record_table = document.getElementById("record-table");
 
@@ -19,7 +21,7 @@ function displayData() {
         <br>
     `;
 
-    fetch(`getData?n=${num.value}`)
+    fetch(`getData?n=${num.value}&offset=${offset.value}`)
     .then(request => request.json())
     .then(result => {
         console.log(result.data);
