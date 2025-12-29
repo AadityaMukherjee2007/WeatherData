@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     updateValues();
     dataDescription();
-    updateChart();
+    initializeChart();
 
     setInterval(updateValues, 300000); // update values after 5 mins
 });
@@ -49,7 +49,6 @@ function dataDescription() {
             tooltip.style.left = `${Math.min(e.clientX + padding, maxX)}px`;
             tooltip.style.top  = `${Math.min(e.clientY + padding, maxY)}px`;
         });
-        
 
         card.addEventListener("mouseleave", () => {
             tooltip.style.opacity = 0;
@@ -58,12 +57,54 @@ function dataDescription() {
 }
 
 let chart = null;
+let currentOffset = 0;
+const RECORDS_PER_VIEW = 12;
+
+function initializeChart() {
+    // Create navigation controls if they don't exist
+    const chartContainer = document.querySelector('.chart-container');
+    if (chartContainer && !document.getElementById('chart-nav')) {
+        const navDiv = document.createElement('div');
+        navDiv.id = 'chart-nav';
+        navDiv.style.cssText = 'display: flex; justify-content: center; gap: 10px; margin: 10px 0;';
+        navDiv.innerHTML = `
+            <button id="btn-older" style="padding: 8px 16px; cursor: pointer; border-radius: 5px; border: 1px solid #ccc; background: #f0f0f0;">← Older</button>
+            <span id="chart-info" style="padding: 8px 16px; align-self: center;">Loading...</span>
+            <button id="btn-newer" style="padding: 8px 16px; cursor: pointer; border-radius: 5px; border: 1px solid #ccc; background: #f0f0f0;">Newer →</button>
+        `;
+        chartContainer.parentNode.insertBefore(navDiv, chartContainer);
+
+        document.getElementById('btn-newer').addEventListener('click', () => loadNewerData());
+        document.getElementById('btn-older').addEventListener('click', () => loadOlderData());
+    }
+
+    updateChart();
+}
+
+function loadNewerData() {
+    if (currentOffset > 0) {
+        currentOffset = Math.max(0, currentOffset - RECORDS_PER_VIEW);
+        updateChart();
+    }
+}
+
+function loadOlderData() {
+    currentOffset += RECORDS_PER_VIEW;
+    updateChart();
+}
 
 function updateChart() {
-    fetch('/getData?n=12')
+    fetch(`/getData?n=${RECORDS_PER_VIEW}&offset=${currentOffset}`)
     .then(res => res.json())
     .then(result => {
         const data = result.data.reverse();
+
+        if (data.length === 0) {
+            // No more data, go back
+            currentOffset = Math.max(0, currentOffset - RECORDS_PER_VIEW);
+            document.getElementById('chart-info').textContent = 'No more data';
+            return;
+        }
 
         const labels = data.map(d =>
             new Date(d.timestamp).toLocaleTimeString([], {
@@ -176,5 +217,15 @@ function updateChart() {
                 }
             }
         });
-    });
+
+        // Update navigation info
+        const startRecord = currentOffset + 1;
+        const endRecord = currentOffset + data.length;
+        document.getElementById('chart-info').textContent = `Records ${startRecord}-${endRecord}`;
+        
+        // Enable/disable buttons
+        document.getElementById('btn-newer').disabled = currentOffset === 0;
+        document.getElementById('btn-older').disabled = data.length < RECORDS_PER_VIEW;
+    })
+    .catch(error => console.error('Error loading chart data:', error));
 }
