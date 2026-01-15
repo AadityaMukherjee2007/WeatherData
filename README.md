@@ -5,7 +5,7 @@ This project demonstrates practical experience with microcontrollers, data messa
 ---
 
 ## 🔧 Project Summary
-This system reads **temperature and atmospheric pressure** from a BMP280 sensor connected to an ESP32.  
+This system reads **temperature, humidity and atmospheric pressure** from a BMP280 sensor connected to an ESP32.  
 The ESP8266 publishes the data over MQTT in JSON format.  
 
 A **Raspberry Pi Zero 2 W** acts as the data hub:
