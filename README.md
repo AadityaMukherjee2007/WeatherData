@@ -68,7 +68,8 @@ This project was built as a hands-on exploration of the entire IoT pipeline — 
 ### Firmware / IoT
 - Arduino
 - ESP8266
-- BMP280 Sensor  
+- BMP280 Sensor
+- DHT22
 
 ### Messaging & Protocols
 - MQTT (Mosquitto Broker)  
