@@ -19,7 +19,7 @@ function updateValues() {
     .then(request => request.json())
     .then(data => {
         console.log(data);
-        
+
         temp_val.textContent = `${data['temp_c']}°C`;
         temp_val_f.textContent = `${data['temp_f']}°F`;
         HI_val.textContent = `${data['heatIndex_c']}°C`;
@@ -45,11 +45,11 @@ function dataDescription() {
             const padding = 12;
             const maxX = window.innerWidth - tooltip.offsetWidth - padding;
             const maxY = window.innerHeight - tooltip.offsetHeight - padding;
-        
+
             tooltip.style.left = `${Math.min(e.clientX + padding, maxX)}px`;
             tooltip.style.top  = `${Math.min(e.clientY + padding, maxY)}px`;
         });
-        
+
 
         card.addEventListener("mouseleave", () => {
             tooltip.style.opacity = 0;
